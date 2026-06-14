@@ -1,26 +1,21 @@
-# J1J2 Simulation Data Release
+# J1J2 Simulation Code and Data
 
-This repository contains the simulation source code and the raw data needed for
-figures shown in the paper.
+This repo holds the simulation code and data files used for the J1-J2 random
+field simulations.
 
 ## Contents
 
-- `sim/`: Fortran simulation sources.
-- `vendor/`: bundled FFT sources required by the simulation build.
-- `data/raw/`: raw simulation outputs needed for figures shown in the paper.
-
-The private development repository also contains analysis scripts, CLI tooling,
-cluster automation, generated plots, and paper drafting files. Those files are
-not part of this public release repository.
+- `sim/`: Fortran simulation source code.
+- `vendor/`: bundled FFT source files used by the simulation.
+- `data/raw/`: simulation output files.
 
 ## Build Notes
 
 The main simulation source is `sim/J1J2_6tv.f90`. It depends on
 `sim/corr_rand_3d.f90` and bundled FFT sources under `vendor/fft2d/`.
 
-Build commands are environment-specific because the production runs used an HPC
-cluster and MPI Fortran compiler. A typical local compiler invocation starts
-from:
+Build commands are environment-specific. A typical local MPI Fortran build
+starts from:
 
 ```bash
 mpif90 -cpp sim/corr_rand_3d.f90 sim/J1J2_6tv.f90 \
@@ -31,8 +26,5 @@ Simulation parameters are compile-time constants in `sim/J1J2_6tv.f90`.
 
 ## Data Layout
 
-Raw data are organized under `data/raw/`. File naming conventions and run
-metadata are encoded in the raw output headers and directory names.
-
-Generated figures and private analysis tooling are not included in this public
-repository.
+Data files are organized under `data/raw/`. File names, directory names, and
+headers carry the run settings and metadata.
