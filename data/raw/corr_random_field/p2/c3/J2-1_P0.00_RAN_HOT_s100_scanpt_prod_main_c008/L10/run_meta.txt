@@ -1,0 +1,38 @@
+job_name: J2-1_P0.00_RAN_HOT_s100_scanpt_prod_main_c008_L10
+job_id: 2223326
+path: /home/jbm76/data/J2-1_P0.00_RAN_HOT_s100_scanpt_prod_main_c008/L10
+start_time: 2026-05-13 22:49:04
+end_time: 2026-05-13 23:05:56
+duration_s: 1012
+exit_code: 0
+status: SUCCESS
+
+params:
+  L: 10
+  H: 10
+  J2: -1
+  P: 0.00
+  IMP: RAN
+  START: HOT
+  STRAXIS: X
+  UPDATEORDER: SEQ
+  SAMPLERMODE: PT
+  PTSTARTMODE: COMMON
+  PTLADDERMODE: LINEAR
+  PHI: 2
+  XI: 3
+  TMIN: 8.0
+  TMAX: 11.5
+  DT: 2.0
+  TEMPPROTOCOL: INDEP
+  NCONF: 100
+  NREPLICA: 20
+  PTSWAPEVER: 5
+  PTMEASINDEX: 1
+  NEQ: 100000
+  NMESS: 100000
+  IRINIT: 801
+  BUILD_MODE: production
+  NTASKS: 100
+  TIME_LIMIT: 
+  LOG_MODE: gzip

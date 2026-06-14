@@ -1,0 +1,38 @@
+job_name: J2-1_P0.00_RAN_STRY_s100_scanpt_prod_main_c002_L14
+job_id: 2223295
+path: /home/jbm76/data/J2-1_P0.00_RAN_STRY_s100_scanpt_prod_main_c002/L14
+start_time: 2026-05-13 22:21:25
+end_time: 2026-05-13 23:13:11
+duration_s: 3106
+exit_code: 0
+status: SUCCESS
+
+params:
+  L: 14
+  H: 14
+  J2: -1
+  P: 0.00
+  IMP: RAN
+  START: STR
+  STRAXIS: Y
+  UPDATEORDER: SEQ
+  SAMPLERMODE: PT
+  PTSTARTMODE: COMMON
+  PTLADDERMODE: LINEAR
+  PHI: 2
+  XI: 3
+  TMIN: 8.0
+  TMAX: 11.5
+  DT: 2.0
+  TEMPPROTOCOL: INDEP
+  NCONF: 100
+  NREPLICA: 20
+  PTSWAPEVER: 5
+  PTMEASINDEX: 1
+  NEQ: 100000
+  NMESS: 100000
+  IRINIT: 201
+  BUILD_MODE: production
+  NTASKS: 100
+  TIME_LIMIT: 
+  LOG_MODE: gzip

@@ -1,0 +1,9 @@
+README.md
+.gitignore
+PUBLIC_REPO_CONTENTS.txt
+sim/J1J2_6tv.f90
+sim/corr_rand_3d.f90
+vendor/fft
+vendor/fft2d
+data/raw
+DATA_MANIFEST.sha256

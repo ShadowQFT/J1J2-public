@@ -1,0 +1,38 @@
+job_name: J2-1_P0.00_RAN_STRX_s100_scanpt_prod_main_L24
+job_id: 2212420
+path: /home/jbm76/data/J2-1_P0.00_RAN_STRX_s100_scanpt_prod_main/L24
+start_time: 2026-05-07 00:49:39
+end_time: 2026-05-08 15:38:25
+duration_s: 139726
+exit_code: 0
+status: SUCCESS
+
+params:
+  L: 24
+  H: 24
+  J2: -1
+  P: 0.00
+  IMP: RAN
+  START: STR
+  STRAXIS: X
+  UPDATEORDER: SEQ
+  SAMPLERMODE: PT
+  PTSTARTMODE: COMMON
+  PTLADDERMODE: LINEAR
+  PHI: 2
+  XI: 3
+  TMIN: 8.0
+  TMAX: 11.5
+  DT: 2.0
+  TEMPPROTOCOL: INDEP
+  NCONF: 1000
+  NREPLICA: 20
+  PTSWAPEVER: 5
+  PTMEASINDEX: 1
+  NEQ: 100000
+  NMESS: 100000
+  IRINIT: 1
+  BUILD_MODE: production
+  NTASKS: 100
+  TIME_LIMIT: 
+  LOG_MODE: gzip

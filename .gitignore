@@ -1,0 +1,19 @@
+# Build products
+J1J2
+J1J2_dbg
+*.o
+*.mod
+*.out
+*.err
+*.dSYM/
+
+# Local generated analysis products
+data/derived/
+data/plots/
+graphs/
+results/
+logs/
+
+# OS/editor
+.DS_Store
+.vscode/

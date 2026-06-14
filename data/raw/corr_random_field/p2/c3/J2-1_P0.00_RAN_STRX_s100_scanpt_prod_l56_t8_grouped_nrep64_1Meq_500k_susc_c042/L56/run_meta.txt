@@ -1,0 +1,39 @@
+job_name: J2-1_P0.00_RAN_STRX_s100_scanpt_prod_l56_t8_grouped_nrep64_1Meq_500k_susc_c042_L56
+job_id: 2280483
+path: /home/jbm76/data/J2-1_P0.00_RAN_STRX_s100_scanpt_prod_l56_t8_grouped_nrep64_1Meq_500k_susc_c042/L56
+start_time: 2026-06-11 18:27:39
+end_time: 2026-06-13 02:12:04
+duration_s: 114265
+exit_code: 0
+status: SUCCESS
+
+params:
+  L: 56
+  H: 56
+  J2: -1
+  P: 0.00
+  IMP: RAN
+  START: STR
+  STRAXIS: X
+  UPDATEORDER: SEQ
+  SAMPLERMODE: PT
+  PTSTARTMODE: COMMON
+  PTLADDERMODE: LINEAR
+  PTPARALLELMODE: GROUPED
+  PHI: 2
+  XI: 3
+  TMIN: 8.0
+  TMAX: 11.5
+  DT: 2.0
+  TEMPPROTOCOL: INDEP
+  NCONF: 2
+  NREPLICA: 64
+  PTSWAPEVER: 5
+  PTMEASINDEX: 1
+  NEQ: 1000000
+  NMESS: 500000
+  IRINIT: 9085
+  BUILD_MODE: production
+  NTASKS: 128
+  TIME_LIMIT: 
+  LOG_MODE: gzip
