@@ -1,6 +1,6 @@
 job_name: J2-1_P0.00_RAN_STRY_s100_scanpt_prod_l56_t8_grouped_nrep64_1Meq_500k_susc_c004_L56
 job_id: 2276734
-path: /home/jbm76/data/J2-1_P0.00_RAN_STRY_s100_scanpt_prod_l56_t8_grouped_nrep64_1Meq_500k_susc_c004/L56
+path: data/raw/corr_random_field/p2/c3/J2-1_P0.00_RAN_STRY_s100_scanpt_prod_l56_t8_grouped_nrep64_1Meq_500k_susc_c004/L56
 start_time: 2026-06-08 11:28:46
 end_time: 2026-06-09 19:08:16
 duration_s: 113970

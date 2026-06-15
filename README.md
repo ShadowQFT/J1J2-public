@@ -1,13 +1,13 @@
-# J1J2 Simulation Code and Data
+# J1-J2 simulation code and data
 
-This repo holds the simulation code and data files used for the J1-J2 random
-field simulations.
+This repo has the Fortran code and data files I used for the J1-J2 random-field
+simulation figures.
 
 ## Contents
 
 - `sim/`: Fortran simulation source code.
 - `vendor/`: bundled FFT source files used by the simulation.
-- `data/raw/`: simulation output files
+- `data/raw/`: simulation output files, including the clean-no-field runs.
 
 ## Build Notes
 

@@ -7,7 +7,7 @@ J1J2_dbg
 *.err
 *.dSYM/
 
-# Local generated analysis products
+# Local analysis outputs
 data/derived/
 data/plots/
 graphs/

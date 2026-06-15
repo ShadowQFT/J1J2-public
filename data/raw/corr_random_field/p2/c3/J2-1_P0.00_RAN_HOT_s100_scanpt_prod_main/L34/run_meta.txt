@@ -1,6 +1,6 @@
 job_name: J2-1_P0.00_RAN_HOT_s100_scanpt_prod_main_L34
 job_id: 2212434
-path: /home/jbm76/data/J2-1_P0.00_RAN_HOT_s100_scanpt_prod_main/L34
+path: data/raw/corr_random_field/p2/c3/J2-1_P0.00_RAN_HOT_s100_scanpt_prod_main/L34
 start_time: 2026-05-07 00:49:38
 end_time: 2026-05-09 00:49:53
 duration_s: 172815

@@ -1,6 +1,6 @@
 job_name: J2-1_P0.00_RAN_STRY_s100_scanpt_prod_main_c006_L14
 job_id: 2223303
-path: /home/jbm76/data/J2-1_P0.00_RAN_STRY_s100_scanpt_prod_main_c006/L14
+path: data/raw/corr_random_field/p2/c3/J2-1_P0.00_RAN_STRY_s100_scanpt_prod_main_c006/L14
 start_time: 2026-05-13 22:41:03
 end_time: 2026-05-13 23:21:24
 duration_s: 2421

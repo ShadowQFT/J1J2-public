@@ -1,6 +1,6 @@
 job_name: J2-1_P0.00_RAN_HOT_s100_scanpt_prod_main_c005_L10
 job_id: 2223320
-path: /home/jbm76/data/J2-1_P0.00_RAN_HOT_s100_scanpt_prod_main_c005/L10
+path: data/raw/corr_random_field/p2/c3/J2-1_P0.00_RAN_HOT_s100_scanpt_prod_main_c005/L10
 start_time: 2026-05-13 22:41:03
 end_time: 2026-05-13 23:00:31
 duration_s: 1168

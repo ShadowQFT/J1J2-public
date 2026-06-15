@@ -1,6 +1,6 @@
 job_name: J2-1_P0.00_RAN_HOT_s100_scanpt_prod_l56_t8_grouped_nrep64_1Meq_500k_susc_c009_L56
 job_id: 2276771
-path: /home/jbm76/data/J2-1_P0.00_RAN_HOT_s100_scanpt_prod_l56_t8_grouped_nrep64_1Meq_500k_susc_c009/L56
+path: data/raw/corr_random_field/p2/c3/J2-1_P0.00_RAN_HOT_s100_scanpt_prod_l56_t8_grouped_nrep64_1Meq_500k_susc_c009/L56
 start_time: 2026-06-09 09:31:48
 end_time: 2026-06-11 03:33:51
 duration_s: 151323
