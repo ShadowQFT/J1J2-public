@@ -1,0 +1,38 @@
+job_name: J2-1_P0.00_RAN_HOT_s100_scanclean_no_field_L40
+job_id: 2223826
+path: /home/jbm76/data/J2-1_P0.00_RAN_HOT_s100_scanclean_no_field/L40
+start_time: 2026-05-14 04:50:36
+end_time: 2026-05-14 08:59:22
+duration_s: 14926
+exit_code: 0
+status: SUCCESS
+
+params:
+  L: 40
+  H: 40
+  J2: -1
+  P: 0.00
+  IMP: RAN
+  START: HOT
+  STRAXIS: X
+  UPDATEORDER: SEQ
+  SAMPLERMODE: LOCAL
+  PTSTARTMODE: COMMON
+  PTLADDERMODE: LINEAR
+  PHI: 0
+  XI: 3
+  TMIN: 4.0
+  TMAX: 4.4
+  DT: .04
+  TEMPPROTOCOL: INDEP
+  NCONF: 100
+  NREPLICA: 1
+  PTSWAPEVER: 0
+  PTMEASINDEX: 1
+  NEQ: 100000
+  NMESS: 100000
+  IRINIT: 1
+  BUILD_MODE: production
+  NTASKS: 100
+  TIME_LIMIT: 
+  LOG_MODE: gzip
