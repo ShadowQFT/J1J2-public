@@ -7,8 +7,7 @@ field simulations.
 
 - `sim/`: Fortran simulation source code.
 - `vendor/`: bundled FFT source files used by the simulation.
-- `data/raw/`: simulation output files, including the p0/c3 clean-no-field
-  inputs used for the clean_no_field figures.
+- `data/raw/`: simulation output files
 
 ## Build Notes
 
