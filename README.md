@@ -27,4 +27,5 @@ Simulation parameters are compile-time constants in `sim/J1J2_6tv.f90`.
 ## Data Layout
 
 Data files are organized under `data/raw/`. File names, directory names, and
-headers carry the run settings and metadata.
+headers carry the run settings and metadata. Each run folder also has a
+`run_meta.txt` file with the parameters for that run.
