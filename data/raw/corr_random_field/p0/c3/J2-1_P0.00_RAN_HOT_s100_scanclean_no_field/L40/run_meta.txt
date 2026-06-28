@@ -1,9 +1,9 @@
 job_name: J2-1_P0.00_RAN_HOT_s100_scanclean_no_field_L40
-job_id: 2223826
+job_id: 2290234
 path: data/raw/corr_random_field/p0/c3/J2-1_P0.00_RAN_HOT_s100_scanclean_no_field/L40
-start_time: 2026-05-14 04:50:36
-end_time: 2026-05-14 08:59:22
-duration_s: 14926
+start_time: 2026-06-17 01:11:12
+end_time: 2026-06-17 03:27:30
+duration_s: 8178
 exit_code: 0
 status: SUCCESS
 
@@ -19,6 +19,7 @@ params:
   SAMPLERMODE: LOCAL
   PTSTARTMODE: COMMON
   PTLADDERMODE: LINEAR
+  PTPARALLELMODE: SERIAL
   PHI: 0
   XI: 3
   TMIN: 4.0

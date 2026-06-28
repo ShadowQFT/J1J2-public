@@ -1,0 +1,39 @@
+job_name: J2-1_P0.00_RAN_HOT_s100_scanpt_prod_l56_t8_grouped_nrep64_1Meq_500k_susc_c002_L56
+job_id: 2276764
+path: data/raw/corr_random_field/p2/c3/J2-1_P0.00_RAN_HOT_s100_scanpt_prod_l56_t8_grouped_nrep64_1Meq_500k_susc_c002/L56
+start_time: 2026-06-10 00:06:36
+end_time: 2026-06-11 18:52:02
+duration_s: 153926
+exit_code: 0
+status: SUCCESS
+
+params:
+  L: 56
+  H: 56
+  J2: -1
+  P: 0.00
+  IMP: RAN
+  START: HOT
+  STRAXIS: X
+  UPDATEORDER: SEQ
+  SAMPLERMODE: PT
+  PTSTARTMODE: COMMON
+  PTLADDERMODE: LINEAR
+  PTPARALLELMODE: GROUPED
+  PHI: 2
+  XI: 3
+  TMIN: 8.0
+  TMAX: 11.5
+  DT: 2.0
+  TEMPPROTOCOL: INDEP
+  NCONF: 2
+  NREPLICA: 64
+  PTSWAPEVER: 5
+  PTMEASINDEX: 1
+  NEQ: 1000000
+  NMESS: 500000
+  IRINIT: 9005
+  BUILD_MODE: production
+  NTASKS: 128
+  TIME_LIMIT: 
+  LOG_MODE: gzip

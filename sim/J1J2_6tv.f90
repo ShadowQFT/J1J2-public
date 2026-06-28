@@ -139,7 +139,7 @@ program J1J2_6
    real(r8b)       :: confsph(NTEMP), conf2sph(NTEMP)                  ! configuration averages of specific heat
    real(r8b)       :: conf2mag(NTEMP), conflogmag(NTEMP)               !
    real(r8b)       :: confnem(NTEMP), conf2nem(NTEMP)                 ! configuration averages of nematic OP
-   real(r8b)       :: confnbar(NTEMP), conf2nbar(NTEMP)               ! configuration averages of spatial mean local nematic
+   real(r8b)       :: confnbar(NTEMP), confnbarabs(NTEMP), conf2nbar(NTEMP)  ! spatial mean local nematic
    real(r8b)       :: confnbar2(NTEMP), confnbar4(NTEMP)              ! thermal moments of spatial mean local nematic
    real(r8b)       :: confUBN(NTEMP), conf2UBN(NTEMP)                 ! Binder from spatial mean local nematic
 
@@ -159,11 +159,11 @@ program J1J2_6
    real(r8b)       :: sumsph(NTEMP), sum2sph(NTEMP)                    ! configuration averages of specific heat
    real(r8b)       :: sum2mag(NTEMP), sumlogmag(NTEMP)
    real(r8b)       :: sumnem(NTEMP), sum2nem(NTEMP)
-   real(r8b)       :: sumnbar(NTEMP), sum2nbar(NTEMP)
+   real(r8b)       :: sumnbar(NTEMP), sumnbarabs(NTEMP), sum2nbar(NTEMP)
    real(r8b)       :: sumnbar2(NTEMP), sumnbar4(NTEMP)
    real(r8b)       :: sumUBN(NTEMP), sum2UBN(NTEMP)
 
-   real(r8b)       :: nbarcfglist(NCONF, NTEMP), nbar2cfglist(NCONF, NTEMP)
+   real(r8b)       :: nbarcfglist(NCONF, NTEMP), nbarabscfglist(NCONF, NTEMP), nbar2cfglist(NCONF, NTEMP)
    real(r8b)       :: nbar4cfglist(NCONF, NTEMP), nbindcfglist(NCONF, NTEMP)
 
    real(r8b)       :: avclsize              ! average cluster size in Wolff algorithm
@@ -197,7 +197,7 @@ program J1J2_6
    real(r8b)       :: temp_ladder(NTEMP), beta_ladder(NTEMP)            ! explicit ladder used by PT and output helpers
    real(r8b)       :: locspin_accum(0:L3 - 1), locnem_accum(0:L3 - 1)   ! measurement-averaged site diagnostics
    real(r8b)       :: stripe_parity_x(0:L3 - 1), stripe_parity_y(0:L3 - 1)
-   real(r8b)       :: cfg_nbar(NTEMP), cfg_nbar2(NTEMP), cfg_nbar4(NTEMP), cfg_nbind(NTEMP)
+   real(r8b)       :: cfg_nbar(NTEMP), cfg_nbarabs(NTEMP), cfg_nbar2(NTEMP), cfg_nbar4(NTEMP), cfg_nbind(NTEMP)
    integer(i4b)    :: locnem_samples
    integer(i4b)    :: itemp
    integer(i4b)    :: site_order(0:L3 - 1)
@@ -645,6 +645,7 @@ program J1J2_6
          cfg_besten(:) = 0.D0
          cfg_finalen(:) = 0.D0
          cfg_nbar(:) = 0.D0
+         cfg_nbarabs(:) = 0.D0
          cfg_nbar2(:) = 0.D0
          cfg_nbar4(:) = 0.D0
          cfg_nbind(:) = 0.D0
@@ -653,6 +654,7 @@ program J1J2_6
          bestenlist(:, :) = 0.D0
          finalenlist(:, :) = 0.D0
          nbarcfglist(:, :) = 0.D0
+         nbarabscfglist(:, :) = 0.D0
          nbar2cfglist(:, :) = 0.D0
          nbar4cfglist(:, :) = 0.D0
          nbindcfglist(:, :) = 0.D0
@@ -694,6 +696,7 @@ program J1J2_6
          confUSY(:) = 0.D0
          conf2USY(:) = 0.D0
          confnbar(:) = 0.D0
+         confnbarabs(:) = 0.D0
          conf2nbar(:) = 0.D0
          confnbar2(:) = 0.D0
          confnbar4(:) = 0.D0
@@ -734,6 +737,7 @@ program J1J2_6
          sumUSY(:) = 0.D0
          sum2USY(:) = 0.D0
          sumnbar(:) = 0.D0
+         sumnbarabs(:) = 0.D0
          sum2nbar(:) = 0.D0
          sumnbar2(:) = 0.D0
          sumnbar4(:) = 0.D0
@@ -774,6 +778,7 @@ program J1J2_6
          cfg_besten(:) = 0.D0
          cfg_finalen(:) = 0.D0
          cfg_nbar(:) = 0.D0
+         cfg_nbarabs(:) = 0.D0
          cfg_nbar2(:) = 0.D0
          cfg_nbar4(:) = 0.D0
          cfg_nbind(:) = 0.D0
@@ -814,6 +819,7 @@ program J1J2_6
          confUSY(:) = 0.D0
          conf2USY(:) = 0.D0
          confnbar(:) = 0.D0
+         confnbarabs(:) = 0.D0
          conf2nbar(:) = 0.D0
          confnbar2(:) = 0.D0
          confnbar4(:) = 0.D0
@@ -1343,12 +1349,12 @@ program J1J2_6
          real(r8b)    :: en_sum(NTEMP), en2_sum(NTEMP), strx_abs_sum(NTEMP), stry_abs_sum(NTEMP)
          real(r8b)    :: strx2_sum(NTEMP), strx4_sum(NTEMP), stry2_sum(NTEMP), stry4_sum(NTEMP)
          real(r8b)    :: str2_sum(NTEMP), str4_sum(NTEMP), absstr_sum(NTEMP), nem_sum(NTEMP)
-         real(r8b)    :: nbar_sum(NTEMP), nbar2_sum(NTEMP), nbar4_sum(NTEMP)
+         real(r8b)    :: nbar_sum(NTEMP), nbarabs_sum(NTEMP), nbar2_sum(NTEMP), nbar4_sum(NTEMP)
          real(r8b)    :: best_en(NTEMP), final_en(NTEMP), stripediff(NTEMP)
          real(r8b)    :: amag, aen, astripx, astripy, anbar, str2, absstr, nem
          real(r8b)    :: mag, absmag, mag2, mag4, en, en2, totalstrx, totalstry
          real(r8b)    :: strx2, strx4, stry2, stry4, str4, suscabs, susstrip, UL, US, USX, USY, sph
-         real(r8b)    :: nbar, nbar2, nbar4, UBN
+         real(r8b)    :: nbar, nbarabs, nbar2, nbar4, UBN
          real(r8b)    :: target_sumstrx2, target_sumstrx4, target_sumstry2, target_sumstry4
          real(r8b)    :: avgstrx2, avgstrx4, avgstry2, avgstry4, bindx, bindy
          logical(ilog) :: do_bind_time, visited_cold(NREPLICA), visited_hot(NREPLICA), do_trace
@@ -1371,6 +1377,7 @@ program J1J2_6
          absstr_sum(:) = 0.D0
          nem_sum(:) = 0.D0
          nbar_sum(:) = 0.D0
+         nbarabs_sum(:) = 0.D0
          nbar2_sum(:) = 0.D0
          nbar4_sum(:) = 0.D0
          stripediff(:) = 0.D0
@@ -1498,6 +1505,7 @@ program J1J2_6
                   absstr_sum(slot) = absstr_sum(slot) + absstr
                   nem_sum(slot) = nem_sum(slot) + nem
                   nbar_sum(slot) = nbar_sum(slot) + anbar
+                  nbarabs_sum(slot) = nbarabs_sum(slot) + abs(anbar)
                   nbar2_sum(slot) = nbar2_sum(slot) + anbar**2
                   nbar4_sum(slot) = nbar4_sum(slot) + anbar**4
                   best_en(slot) = min(best_en(slot), aen)
@@ -1555,6 +1563,7 @@ program J1J2_6
                absstr = sqrt(str2)
                nem = abs(astripy**2 - astripx**2)
                nbar = rep_nbar(rep)
+               nbarabs = abs(nbar)
                nbar2 = nbar**2
                nbar4 = nbar**4
                best_en(slot) = aen
@@ -1577,6 +1586,7 @@ program J1J2_6
                absstr = absstr_sum(slot)/nmeasure
                nem = nem_sum(slot)/nmeasure
                nbar = nbar_sum(slot)/nmeasure
+               nbarabs = nbarabs_sum(slot)/nmeasure
                nbar2 = nbar2_sum(slot)/nmeasure
                nbar4 = nbar4_sum(slot)/nmeasure
             end if
@@ -1655,12 +1665,14 @@ program J1J2_6
             confnem(slot) = confnem(slot) + nem
             conf2nem(slot) = conf2nem(slot) + nem**2
             confnbar(slot) = confnbar(slot) + nbar
+            confnbarabs(slot) = confnbarabs(slot) + nbarabs
             conf2nbar(slot) = conf2nbar(slot) + nbar**2
             confnbar2(slot) = confnbar2(slot) + nbar2
             confnbar4(slot) = confnbar4(slot) + nbar4
             confUBN(slot) = confUBN(slot) + UBN
             conf2UBN(slot) = conf2UBN(slot) + UBN**2
             cfg_nbar(slot) = nbar
+            cfg_nbarabs(slot) = nbarabs
             cfg_nbar2(slot) = nbar2
             cfg_nbar4(slot) = nbar4
             cfg_nbind(slot) = UBN
@@ -1810,18 +1822,18 @@ program J1J2_6
          real(r8b)    :: l_en_sum(NTEMP), l_en2_sum(NTEMP), l_strx_abs_sum(NTEMP), l_stry_abs_sum(NTEMP)
          real(r8b)    :: l_strx2_sum(NTEMP), l_strx4_sum(NTEMP), l_stry2_sum(NTEMP), l_stry4_sum(NTEMP)
          real(r8b)    :: l_str2_sum(NTEMP), l_str4_sum(NTEMP), l_absstr_sum(NTEMP), l_nem_sum(NTEMP)
-         real(r8b)    :: l_nbar_sum(NTEMP), l_nbar2_sum(NTEMP), l_nbar4_sum(NTEMP)
+         real(r8b)    :: l_nbar_sum(NTEMP), l_nbarabs_sum(NTEMP), l_nbar2_sum(NTEMP), l_nbar4_sum(NTEMP)
          real(r8b)    :: l_best_en(NTEMP), l_final_en(NTEMP)
          real(r8b)    :: mag_sum(NTEMP), absmag_sum(NTEMP), mag2_sum(NTEMP), mag4_sum(NTEMP)
          real(r8b)    :: en_sum(NTEMP), en2_sum(NTEMP), strx_abs_sum(NTEMP), stry_abs_sum(NTEMP)
          real(r8b)    :: strx2_sum(NTEMP), strx4_sum(NTEMP), stry2_sum(NTEMP), stry4_sum(NTEMP)
          real(r8b)    :: str2_sum(NTEMP), str4_sum(NTEMP), absstr_sum(NTEMP), nem_sum(NTEMP)
-         real(r8b)    :: nbar_sum(NTEMP), nbar2_sum(NTEMP), nbar4_sum(NTEMP)
+         real(r8b)    :: nbar_sum(NTEMP), nbarabs_sum(NTEMP), nbar2_sum(NTEMP), nbar4_sum(NTEMP)
          real(r8b)    :: best_en(NTEMP), final_en(NTEMP), stripediff(NTEMP)
          real(r8b)    :: amag, aen, astripx, astripy, anbar, str2, absstr, nem
          real(r8b)    :: mag, absmag, mag2, mag4, en, en2, totalstrx, totalstry
          real(r8b)    :: strx2, strx4, stry2, stry4, str4, suscabs, susstrip, UL, US, USX, USY, sph
-         real(r8b)    :: nbar, nbar2, nbar4, UBN
+         real(r8b)    :: nbar, nbarabs, nbar2, nbar4, UBN
          real(r8b)    :: local_visitboth(1), group_visitboth(1)
          real(r8b)    :: group_locspin_accum(0:L3 - 1), group_locnem_accum(0:L3 - 1)
          real(r8b)    :: local_locnem_samples(1), group_locnem_samples(1)
@@ -1844,6 +1856,7 @@ program J1J2_6
          l_absstr_sum(:) = 0.D0
          l_nem_sum(:) = 0.D0
          l_nbar_sum(:) = 0.D0
+         l_nbarabs_sum(:) = 0.D0
          l_nbar2_sum(:) = 0.D0
          l_nbar4_sum(:) = 0.D0
          l_best_en(:) = huge(1.D0)
@@ -1868,7 +1881,7 @@ program J1J2_6
             call Grouped_accumulate_measurement(rep, current_slot, rep_mag, rep_en, rep_strx, rep_stry, rep_nbar, &
      &         l_mag_sum, l_absmag_sum, l_mag2_sum, l_mag4_sum, l_en_sum, l_en2_sum, l_strx_abs_sum, &
      &         l_stry_abs_sum, l_strx2_sum, l_strx4_sum, l_stry2_sum, l_stry4_sum, l_str2_sum, l_str4_sum, &
-     &         l_absstr_sum, l_nem_sum, l_nbar_sum, l_nbar2_sum, l_nbar4_sum, l_best_en)
+     &         l_absstr_sum, l_nem_sum, l_nbar_sum, l_nbarabs_sum, l_nbar2_sum, l_nbar4_sum, l_best_en)
          else
             nmeasure = NMESS
             swap_phase = 1
@@ -1884,7 +1897,7 @@ program J1J2_6
                call Grouped_accumulate_measurement(rep, current_slot, rep_mag, rep_en, rep_strx, rep_stry, rep_nbar, &
      &            l_mag_sum, l_absmag_sum, l_mag2_sum, l_mag4_sum, l_en_sum, l_en2_sum, l_strx_abs_sum, &
      &            l_stry_abs_sum, l_strx2_sum, l_strx4_sum, l_stry2_sum, l_stry4_sum, l_str2_sum, l_str4_sum, &
-     &            l_absstr_sum, l_nem_sum, l_nbar_sum, l_nbar2_sum, l_nbar4_sum, l_best_en)
+     &            l_absstr_sum, l_nem_sum, l_nbar_sum, l_nbarabs_sum, l_nbar2_sum, l_nbar4_sum, l_best_en)
 
                if (swap_phase == 1) then
                   swap_phase = 2
@@ -1919,6 +1932,7 @@ program J1J2_6
          call MPI_REDUCE(l_absstr_sum, absstr_sum, NTEMP, MPI_DOUBLE_PRECISION, MPI_SUM, 0, pt_comm, ierr)
          call MPI_REDUCE(l_nem_sum, nem_sum, NTEMP, MPI_DOUBLE_PRECISION, MPI_SUM, 0, pt_comm, ierr)
          call MPI_REDUCE(l_nbar_sum, nbar_sum, NTEMP, MPI_DOUBLE_PRECISION, MPI_SUM, 0, pt_comm, ierr)
+         call MPI_REDUCE(l_nbarabs_sum, nbarabs_sum, NTEMP, MPI_DOUBLE_PRECISION, MPI_SUM, 0, pt_comm, ierr)
          call MPI_REDUCE(l_nbar2_sum, nbar2_sum, NTEMP, MPI_DOUBLE_PRECISION, MPI_SUM, 0, pt_comm, ierr)
          call MPI_REDUCE(l_nbar4_sum, nbar4_sum, NTEMP, MPI_DOUBLE_PRECISION, MPI_SUM, 0, pt_comm, ierr)
          call MPI_REDUCE(l_best_en, best_en, NTEMP, MPI_DOUBLE_PRECISION, MPI_MIN, 0, pt_comm, ierr)
@@ -1958,6 +1972,7 @@ program J1J2_6
                absstr = absstr_sum(slot)/nmeasure
                nem = nem_sum(slot)/nmeasure
                nbar = nbar_sum(slot)/nmeasure
+               nbarabs = nbarabs_sum(slot)/nmeasure
                nbar2 = nbar2_sum(slot)/nmeasure
                nbar4 = nbar4_sum(slot)/nmeasure
                stripediff(slot) = totalstrx**2 - totalstry**2
@@ -2034,12 +2049,14 @@ program J1J2_6
                confnem(slot) = confnem(slot) + nem
                conf2nem(slot) = conf2nem(slot) + nem**2
                confnbar(slot) = confnbar(slot) + nbar
+               confnbarabs(slot) = confnbarabs(slot) + nbarabs
                conf2nbar(slot) = conf2nbar(slot) + nbar**2
                confnbar2(slot) = confnbar2(slot) + nbar2
                confnbar4(slot) = confnbar4(slot) + nbar4
                confUBN(slot) = confUBN(slot) + UBN
                conf2UBN(slot) = conf2UBN(slot) + UBN**2
                cfg_nbar(slot) = nbar
+               cfg_nbarabs(slot) = nbarabs
                cfg_nbar2(slot) = nbar2
                cfg_nbar4(slot) = nbar4
                cfg_nbind(slot) = UBN
@@ -2051,7 +2068,7 @@ program J1J2_6
       subroutine Grouped_accumulate_measurement(rep, slot, rep_mag, rep_en, rep_strx, rep_stry, rep_nbar, &
      &   mag_sum, absmag_sum, mag2_sum, mag4_sum, en_sum, en2_sum, strx_abs_sum, stry_abs_sum, &
      &   strx2_sum, strx4_sum, stry2_sum, stry4_sum, str2_sum, str4_sum, absstr_sum, nem_sum, &
-     &   nbar_sum, nbar2_sum, nbar4_sum, best_en)
+     &   nbar_sum, nbarabs_sum, nbar2_sum, nbar4_sum, best_en)
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          integer(i4b), intent(in) :: rep, slot
          real(r8b), intent(in)    :: rep_mag, rep_en, rep_strx, rep_stry, rep_nbar
@@ -2059,7 +2076,7 @@ program J1J2_6
          real(r8b), intent(inout) :: en_sum(NTEMP), en2_sum(NTEMP), strx_abs_sum(NTEMP), stry_abs_sum(NTEMP)
          real(r8b), intent(inout) :: strx2_sum(NTEMP), strx4_sum(NTEMP), stry2_sum(NTEMP), stry4_sum(NTEMP)
          real(r8b), intent(inout) :: str2_sum(NTEMP), str4_sum(NTEMP), absstr_sum(NTEMP), nem_sum(NTEMP)
-         real(r8b), intent(inout) :: nbar_sum(NTEMP), nbar2_sum(NTEMP), nbar4_sum(NTEMP), best_en(NTEMP)
+         real(r8b), intent(inout) :: nbar_sum(NTEMP), nbarabs_sum(NTEMP), nbar2_sum(NTEMP), nbar4_sum(NTEMP), best_en(NTEMP)
          real(r8b)                :: str2, absstr, nem
 
          str2 = rep_strx**2 + rep_stry**2
@@ -2082,6 +2099,7 @@ program J1J2_6
          absstr_sum(slot) = absstr_sum(slot) + absstr
          nem_sum(slot) = nem_sum(slot) + nem
          nbar_sum(slot) = nbar_sum(slot) + rep_nbar
+         nbarabs_sum(slot) = nbarabs_sum(slot) + abs(rep_nbar)
          nbar2_sum(slot) = nbar2_sum(slot) + rep_nbar**2
          nbar4_sum(slot) = nbar4_sum(slot) + rep_nbar**4
          best_en(slot) = min(best_en(slot), rep_en)
@@ -2211,7 +2229,7 @@ program J1J2_6
          real(r8b)       :: USX, USY                     ! Binder parameter for strip x and y
          real(r8b)       :: en, en2, sph             ! average energy, square, specific heat
          real(r8b)       :: nem                      ! nematic OP
-         real(r8b)       :: nbar, nbar2, nbar4, UBN  ! spatial mean local nematic and Binder
+         real(r8b)       :: nbar, nbarabs, nbar2, nbar4, UBN  ! spatial mean local nematic and Binder
          real(r8b)       :: hrange                   ! histogram range padding
          real(r8b)       :: measured_mag, measured_en, measured_strx, measured_stry, measured_nbar
          integer(i4b)    :: histindex                ! index for histogram
@@ -2236,6 +2254,7 @@ program J1J2_6
          absstr = 0.D0
          nem = 0.D0
          nbar = 0.D0
+         nbarabs = 0.D0
          nbar2 = 0.D0
          nbar4 = 0.D0
          UBN = 0.D0
@@ -2263,6 +2282,7 @@ program J1J2_6
             absstr = sqrt(measured_strx**2 + measured_stry**2)
             nem = abs(measured_stry**2 - measured_strx**2)
             nbar = measured_nbar
+            nbarabs = abs(measured_nbar)
             nbar2 = measured_nbar**2
             nbar4 = measured_nbar**4
             besten = measured_en
@@ -2315,6 +2335,7 @@ program J1J2_6
                nem = nem + abs(astripy**2 - astripx**2)
                anbar = nbarlist(isweep)
                nbar = nbar + anbar
+               nbarabs = nbarabs + abs(anbar)
                nbar2 = nbar2 + anbar**2
                nbar4 = nbar4 + anbar**4
 
@@ -2342,6 +2363,7 @@ program J1J2_6
             absstr = absstr/NMESS
             nem = nem/NMESS
             nbar = nbar/NMESS
+            nbarabs = nbarabs/NMESS
             nbar2 = nbar2/NMESS
             nbar4 = nbar4/NMESS
             totalstrx = totalstrx/NMESS
@@ -2431,12 +2453,14 @@ program J1J2_6
          confnem(itemp) = confnem(itemp) + nem
          conf2nem(itemp) = conf2nem(itemp) + nem**2
          confnbar(itemp) = confnbar(itemp) + nbar
+         confnbarabs(itemp) = confnbarabs(itemp) + nbarabs
          conf2nbar(itemp) = conf2nbar(itemp) + nbar**2
          confnbar2(itemp) = confnbar2(itemp) + nbar2
          confnbar4(itemp) = confnbar4(itemp) + nbar4
          confUBN(itemp) = confUBN(itemp) + UBN
          conf2UBN(itemp) = conf2UBN(itemp) + UBN**2
          cfg_nbar(itemp) = nbar
+         cfg_nbarabs(itemp) = nbarabs
          cfg_nbar2(itemp) = nbar2
          cfg_nbar4(itemp) = nbar4
          cfg_nbind(itemp) = UBN
@@ -2893,7 +2917,7 @@ program J1J2_6
       subroutine Collect_data(active_config)
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          logical(ilog), intent(in) :: active_config
-         integer(i4b), parameter :: BASEFIELDS = 47
+         integer(i4b), parameter :: BASEFIELDS = 49
          integer(i4b), parameter :: PTFIELDS = 2*(NREPLICA - 1) + 1
          real(r8b)       :: transdata(BASEFIELDS*NTEMP + (NTEMP*BINS) + (NTEMP*L3) + L3 + 1 + PTFIELDS)
          integer(i4b)    :: cfg_id
@@ -2957,6 +2981,8 @@ program J1J2_6
                transdata(44*NTEMP + 1:45*NTEMP) = cfg_nbar2(:)
                transdata(45*NTEMP + 1:46*NTEMP) = cfg_nbar4(:)
                transdata(46*NTEMP + 1:47*NTEMP) = cfg_nbind(:)
+               transdata(47*NTEMP + 1:48*NTEMP) = confnbarabs(:)
+               transdata(48*NTEMP + 1:49*NTEMP) = cfg_nbarabs(:)
 
                do itemp = 1, NTEMP
                   transdata(hist_offset + 1 + (itemp - 1)*BINS:hist_offset + itemp*BINS) = confhist(itemp, :)
@@ -2984,6 +3010,7 @@ program J1J2_6
                bestenlist(iconf, :) = cfg_besten(:)
                finalenlist(iconf, :) = cfg_finalen(:)
                nbarcfglist(iconf, :) = cfg_nbar(:)
+               nbarabscfglist(iconf, :) = cfg_nbarabs(:)
                nbar2cfglist(iconf, :) = cfg_nbar2(:)
                nbar4cfglist(iconf, :) = cfg_nbar4(:)
                nbindcfglist(iconf, :) = cfg_nbind(:)
@@ -3022,6 +3049,7 @@ program J1J2_6
                sumUSY(:) = sumUSY(:) + confUSY(:)
                sum2USY(:) = sum2USY(:) + conf2USY(:)
                sumnbar(:) = sumnbar(:) + confnbar(:)
+               sumnbarabs(:) = sumnbarabs(:) + confnbarabs(:)
                sum2nbar(:) = sum2nbar(:) + conf2nbar(:)
                sumnbar2(:) = sumnbar2(:) + confnbar2(:)
                sumnbar4(:) = sumnbar4(:) + confnbar4(:)
@@ -3049,6 +3077,7 @@ program J1J2_6
                bestenlist(cfg_id, :) = transdata(35*NTEMP + 1:36*NTEMP)
                finalenlist(cfg_id, :) = transdata(36*NTEMP + 1:37*NTEMP)
                nbarcfglist(cfg_id, :) = transdata(43*NTEMP + 1:44*NTEMP)
+               nbarabscfglist(cfg_id, :) = transdata(48*NTEMP + 1:49*NTEMP)
                nbar2cfglist(cfg_id, :) = transdata(44*NTEMP + 1:45*NTEMP)
                nbar4cfglist(cfg_id, :) = transdata(45*NTEMP + 1:46*NTEMP)
                nbindcfglist(cfg_id, :) = transdata(46*NTEMP + 1:47*NTEMP)
@@ -3087,6 +3116,7 @@ program J1J2_6
                sumUSY(:) = sumUSY(:) + transdata(31*NTEMP + 1:32*NTEMP)
                sum2USY(:) = sum2USY(:) + transdata(32*NTEMP + 1:33*NTEMP)
                sumnbar(:) = sumnbar(:) + transdata(37*NTEMP + 1:38*NTEMP)
+               sumnbarabs(:) = sumnbarabs(:) + transdata(47*NTEMP + 1:48*NTEMP)
                sum2nbar(:) = sum2nbar(:) + transdata(38*NTEMP + 1:39*NTEMP)
                sumnbar2(:) = sumnbar2(:) + transdata(39*NTEMP + 1:40*NTEMP)
                sumnbar4(:) = sumnbar4(:) + transdata(40*NTEMP + 1:41*NTEMP)
@@ -3117,6 +3147,7 @@ program J1J2_6
          bestenlist(iconf, :) = cfg_besten(:)
          finalenlist(iconf, :) = cfg_finalen(:)
          nbarcfglist(iconf, :) = cfg_nbar(:)
+         nbarabscfglist(iconf, :) = cfg_nbarabs(:)
          nbar2cfglist(iconf, :) = cfg_nbar2(:)
          nbar4cfglist(iconf, :) = cfg_nbar4(:)
          nbindcfglist(iconf, :) = cfg_nbind(:)
@@ -3155,6 +3186,7 @@ program J1J2_6
          sumUSY(:) = sumUSY(:) + confUSY(:)
          sum2USY(:) = sum2USY(:) + conf2USY(:)
          sumnbar(:) = sumnbar(:) + confnbar(:)
+         sumnbarabs(:) = sumnbarabs(:) + confnbarabs(:)
          sum2nbar(:) = sum2nbar(:) + conf2nbar(:)
          sumnbar2(:) = sumnbar2(:) + confnbar2(:)
          sumnbar4(:) = sumnbar4(:) + confnbar4(:)
@@ -3180,6 +3212,7 @@ program J1J2_6
          integer(i4b), intent(in) :: finconf
          integer(i4b)   ::  id
          real(r8b)      :: coexprod_sum, coexprod2_sum, coexangle_sum, coexangle2_sum, UBN
+         real(r8b)      :: nbarerr, nbarmeanabs, nbarmeanabserr, nbarabserr
 !print *, 'DEBUG: WRITESTRIP=', WRITESTRIP
 
 #ifdef PARALLEL
@@ -3302,7 +3335,7 @@ program J1J2_6
             end if
             write (7, *) '------------------------'
             write (7, *) 'disorder configurations processed ', finconf
-            write (7, *) '   T      [<n>]      std.n/sqrt(iconf)      [<n^2>]      [<n^4>]      Global.Nematic.Binder      Nematic.Binder      Nematic.Binder.Error'
+            write (7, *) '   T      [<n>]      [|<n>|]      [<|n|>]      [<n>].Error      [|<n>|].Error      [<|n|>].Error      [<n^2>]      [<n^4>]      Global.Nematic.Binder      Nematic.Binder      Nematic.Binder.Error'
             do itemp = 1, NTEMP
                T = Temperature_for_index(itemp)
                if (sumnbar2(itemp)/finconf > 0.D0) then
@@ -3310,9 +3343,17 @@ program J1J2_6
                else
                   UBN = 0.D0
                end if
+               nbarerr = sqrt(max(0.D0, sum2nbar(itemp)/finconf - (sumnbar(itemp)/finconf)**2))/sqrt(1.D0*finconf)
+               nbarmeanabs = sum(abs(nbarcfglist(1:finconf, itemp)))/finconf
+               nbarmeanabserr = sqrt(max(0.D0, sum((abs(nbarcfglist(1:finconf, itemp)) - nbarmeanabs)**2)/finconf))/sqrt(1.D0*finconf)
+               nbarabserr = sqrt(max(0.D0, sum((nbarabscfglist(1:finconf, itemp) - sumnbarabs(itemp)/finconf)**2)/finconf))/sqrt(1.D0*finconf)
                write (7, '(1x,25(e12.6,1x))') T, &
                   sumnbar(itemp)/finconf, &
-                  (sqrt(sum2nbar(itemp)/finconf - (sumnbar(itemp)/finconf)**2))/sqrt(1.D0*finconf), &
+                  nbarmeanabs, &
+                  sumnbarabs(itemp)/finconf, &
+                  nbarerr, &
+                  nbarmeanabserr, &
+                  nbarabserr, &
                   sumnbar2(itemp)/finconf, &
                   sumnbar4(itemp)/finconf, &
                   UBN, &
@@ -3465,12 +3506,12 @@ program J1J2_6
 
             open (7, file=cfndfile, status='replace')
             rewind (7)
-            write (7, *) 'iconf, T, nbar, nbar2, nbar4, nbinder'
+            write (7, *) 'iconf, T, nbar, abs_nbar, nbar2, nbar4, nbinder'
             do id = 1, finconf
                do itemp = 1, NTEMP
                   T = Temperature_for_index(itemp)
-                  write (7, '(I4,1x,5(E12.6,1x))') id, T, nbarcfglist(id, itemp), nbar2cfglist(id, itemp), &
-                     nbar4cfglist(id, itemp), nbindcfglist(id, itemp)
+                  write (7, '(I4,1x,6(E12.6,1x))') id, T, nbarcfglist(id, itemp), &
+                     nbarabscfglist(id, itemp), nbar2cfglist(id, itemp), nbar4cfglist(id, itemp), nbindcfglist(id, itemp)
                end do
             end do
             close (7)
