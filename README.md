@@ -1,7 +1,22 @@
-# J1-J2 simulation code and data
+# J1-J2 Monte Carlo simulations
 
-This repo has the Fortran code and data files used for the J1-J2 random-field
-simulation figures.
+Fortran/MPI research software and simulation data for a random-field J1-J2 spin
+model. This repository contains the simulation source and data used for the
+J1-J2 random-field simulation figures.
+
+The code uses Monte Carlo simulations to study ordering in a disordered spin
+system. It is part of my computational condensed matter physics research at
+Missouri University of Science & Technology.
+
+## Software overview
+
+- **Fortran and MPI:** simulation code for parallel scientific computing.
+- **Correlated random fields:** bundled FFT routines used to generate disorder.
+- **Reproducibility:** run metadata records the settings associated with each data set.
+
+This is a research code and data repository. Parameters are set in the source
+before compilation; the public snapshot does not include the separate HPC
+job-management CLI described on my resume.
 
 ## Contents
 
@@ -10,6 +25,10 @@ simulation figures.
 - `data/raw/`: simulation output files.
 
 ## Build Notes
+
+The example below requires an MPI Fortran compiler (`mpif90`), its MPI runtime,
+and the FFT source files bundled in this repository. Compiler flags and MPI
+setup depend on the local machine or cluster.
 
 The main simulation source is `sim/J1J2_6tv.f90`. It depends on
 `sim/corr_rand_3d.f90` and FFT sources under `vendor/fft2d/`.
